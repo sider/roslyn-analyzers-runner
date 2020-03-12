@@ -12,31 +12,34 @@ namespace Sider.CodeAnalyzers
 {
 	class CodeAnalyzer
 	{
-		static void Main(string[] args)
+		public static void Diagnose(IEnumerable<string> diagnosticAnalyzerAssemblyNames, IEnumerable<string> sourceCodeFilePaths)
 		{
-			var sourceCodeFilePath = @"example\Class1.cs";
-
-			var diagnosticAnalyzerAssemblyName = "Microsoft.CodeQuality.Analyzers";
-			var analyzers = ActivateAnalyzers(diagnosticAnalyzerAssemblyName);
+			var analyzers = ActivateAnalyzers(diagnosticAnalyzerAssemblyNames);
 			var compilationOptions = CreateCompilationOptions(analyzers);
 
-			var solution = CreateAdhocSolutionFromFile(sourceCodeFilePath);
-			var compilation = solution.Projects.First().GetCompilationAsync().Result
-				.WithOptions(compilationOptions)
-				.WithAnalyzers(analyzers);
-
-			foreach (var diagnostic in compilation.GetAnalyzerDiagnosticsAsync().Result)
+			foreach (var sourceCodeFilePath in sourceCodeFilePaths)
 			{
-				Console.WriteLine($"id: {diagnostic.Id}");
-				Console.WriteLine($"location: {diagnostic.Location}");
-				Console.WriteLine($"message: {diagnostic.GetMessage()}");
+				Console.WriteLine($"file: {sourceCodeFilePath}");
 				Console.WriteLine();
+
+				var solution = CreateAdhocSolutionFromFile(sourceCodeFilePath);
+				var compilation = solution.Projects.First().GetCompilationAsync().Result
+					.WithOptions(compilationOptions)
+					.WithAnalyzers(analyzers);
+
+				foreach (var diagnostic in compilation.GetAnalyzerDiagnosticsAsync().Result)
+				{
+					Console.WriteLine($"id: {diagnostic.Id}");
+					Console.WriteLine($"location: {diagnostic.Location}");
+					Console.WriteLine($"message: {diagnostic.GetMessage()}");
+					Console.WriteLine();
+				}
 			}
 		}
 
-		private static ImmutableArray<DiagnosticAnalyzer> ActivateAnalyzers(string diagnosticAnalyzerAssemblyName)
+		private static ImmutableArray<DiagnosticAnalyzer> ActivateAnalyzers(IEnumerable<string> diagnosticAnalyzerAssemblyNames)
 		{
-			var analyzerAssemblies = new[] { diagnosticAnalyzerAssemblyName }.Select(n => Assembly.Load(n));
+			var analyzerAssemblies = diagnosticAnalyzerAssemblyNames.Select(n => Assembly.Load(n));
 
 			var analyzers = analyzerAssemblies
 				.SelectMany(a => a.GetTypes())
