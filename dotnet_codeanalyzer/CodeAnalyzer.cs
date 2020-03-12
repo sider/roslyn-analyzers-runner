@@ -10,7 +10,7 @@ using System.Reflection;
 
 namespace Sider.CodeAnalyzers
 {
-	class Program
+	class CodeAnalyzer
 	{
 		static void Main(string[] args)
 		{
