@@ -14,7 +14,7 @@ namespace Sider.CodeAnalyzers
 	{
 		static void Main(string[] args)
 		{
-			var sourceCodeFilePath = "Class1.cs";
+			var sourceCodeFilePath = @"example\Class1.cs";
 
 			var diagnosticAnalyzerAssemblyName = "Microsoft.CodeQuality.Analyzers";
 			var analyzers = ActivateAnalyzers(diagnosticAnalyzerAssemblyName);
