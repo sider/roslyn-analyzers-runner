@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{74052CC8-A105-48E9-92B8-F624EA5F297E}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>dotnet_codeanalyzer</RootNamespace>
+    <RootNamespace>Sider.CodeAnalyzers</RootNamespace>
     <AssemblyName>dotnet_codeanalyzer</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
