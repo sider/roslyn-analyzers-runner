@@ -4,23 +4,26 @@ using Microsoft.CodeAnalysis.Text;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Text;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 
 namespace Sider.CodeAnalyzers
 {
-	class CodeAnalyzer
+	public class CodeAnalyzer
 	{
-		public static void Diagnose(IEnumerable<string> diagnosticAnalyzerAssemblyNames, IEnumerable<string> sourceCodeFilePaths)
+		public static string Diagnose(IEnumerable<string> diagnosticAnalyzerAssemblyNames, IEnumerable<string> sourceCodeFilePaths)
 		{
 			var analyzers = ActivateAnalyzers(diagnosticAnalyzerAssemblyNames);
 			var compilationOptions = CreateCompilationOptions(analyzers);
 
+			var results = new StringBuilder();
+
 			foreach (var sourceCodeFilePath in sourceCodeFilePaths)
 			{
-				Console.WriteLine($"file: {sourceCodeFilePath}");
-				Console.WriteLine();
+				results.AppendLine($"file: {sourceCodeFilePath}");
+				results.AppendLine();
 
 				var solution = CreateAdhocSolutionFromFile(sourceCodeFilePath);
 				var compilation = solution.Projects.First().GetCompilationAsync().Result
@@ -29,12 +32,14 @@ namespace Sider.CodeAnalyzers
 
 				foreach (var diagnostic in compilation.GetAnalyzerDiagnosticsAsync().Result)
 				{
-					Console.WriteLine($"id: {diagnostic.Id}");
-					Console.WriteLine($"location: {diagnostic.Location}");
-					Console.WriteLine($"message: {diagnostic.GetMessage()}");
-					Console.WriteLine();
+					results.AppendLine($"id: {diagnostic.Id}");
+					results.AppendLine($"location: {diagnostic.Location}");
+					results.AppendLine($"message: {diagnostic.GetMessage()}");
+					results.AppendLine();
 				}
 			}
+
+			return results.ToString();
 		}
 
 		private static ImmutableArray<DiagnosticAnalyzer> ActivateAnalyzers(IEnumerable<string> diagnosticAnalyzerAssemblyNames)
