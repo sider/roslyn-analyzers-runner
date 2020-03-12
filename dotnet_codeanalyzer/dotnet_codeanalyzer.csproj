@@ -125,6 +125,6 @@
     <Error Condition="!Exists('..\packages\Microsoft.CodeQuality.Analyzers.2.9.8\build\Microsoft.CodeQuality.Analyzers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeQuality.Analyzers.2.9.8\build\Microsoft.CodeQuality.Analyzers.props'))" />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>xcopy /Y /I $(ProjectDir)\example $(ProjectDir)$(OutDir)\example</PostBuildEvent>
+    <PostBuildEvent>xcopy /Y /I $(SolutionDir)\test_codeanalyzer\example $(ProjectDir)$(OutDir)\example</PostBuildEvent>
   </PropertyGroup>
 </Project>
