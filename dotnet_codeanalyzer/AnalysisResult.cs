@@ -1,4 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Text;
 using System.Collections.Immutable;
 using System.Linq;
 
@@ -21,7 +22,7 @@ namespace Sider.CodeAnalyzers
 	public class DiagnosticResult
 	{
 		public string Id { get; private set; }
-		public Location Location { get; private set; }
+		public LinePositionSpan Location { get; private set; }
 		public string Message { get; private set; }
 		public int WarningLevel { get; private set; }
 		public DiagnosticSeverity Severity { get; private set; }
@@ -38,7 +39,7 @@ namespace Sider.CodeAnalyzers
 			return new DiagnosticResult()
 			{
 				Id = diagnostic.Id,
-				Location = diagnostic.Location,
+				Location = diagnostic.Location.GetLineSpan().Span,
 				Message = diagnostic.GetMessage(),
 				WarningLevel = diagnostic.WarningLevel,
 				Severity = diagnostic.Severity,

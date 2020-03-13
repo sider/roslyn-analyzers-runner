@@ -33,7 +33,7 @@ namespace Sider.CodeAnalyzers
 				var results = CodeAnalyzer
 					.Create(parsed.Value.Analyzers)
 					.Diagnose(parsed.Value.Targets)
-					.ToSimpleText();
+					.ToJsonString();
 				exitCode = Tuple.Create(0, results);
 			}
 			catch (Exception e)
