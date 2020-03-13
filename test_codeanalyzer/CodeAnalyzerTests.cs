@@ -16,7 +16,7 @@ namespace Sider.CodeAnalyzers
 
 id: CA2219
 location: SourceFile(Class1.cs[1215..1237))
-message: finally 句内から例外を発生させないでください。
+message: finally 句内から例外を発生させないでください。 
 
 id: CA1031
 location: SourceFile(Class1.cs[1127..1132))
