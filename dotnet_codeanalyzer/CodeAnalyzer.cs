@@ -4,25 +4,12 @@ using Microsoft.CodeAnalysis.Text;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Text;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 
 namespace Sider.CodeAnalyzers
 {
-	public class DiagnosticResult
-	{
-		public string SourceCodeFilePath { get; private set; }
-		public ImmutableArray<Diagnostic> Diagnostics { get; private set; }
-
-		public DiagnosticResult(string sourceCodeFilePath, ImmutableArray<Diagnostic> diagnostics)
-		{
-			this.SourceCodeFilePath = sourceCodeFilePath;
-			this.Diagnostics = diagnostics;
-		}
-	}
-
 	public class CodeAnalyzer
 	{
 		private readonly ImmutableArray<DiagnosticAnalyzer> analyzers;
@@ -42,10 +29,10 @@ namespace Sider.CodeAnalyzers
 			return new CodeAnalyzer(analyzers, compilationOptions);
 		}
 
-		public ImmutableArray<DiagnosticResult> Diagnose(IEnumerable<string> sourceCodeFilePaths)
+		public ImmutableArray<AnalysisResult> Diagnose(IEnumerable<string> sourceCodeFilePaths)
 		{
 			var results = sourceCodeFilePaths
-				.Select(f => new DiagnosticResult(f, Diagnose(f)))
+				.Select(f => new AnalysisResult(f, Diagnose(f)))
 				.ToImmutableArray();
 			return results;
 		}
