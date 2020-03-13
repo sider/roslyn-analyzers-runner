@@ -1,7 +1,6 @@
-﻿using System;
+﻿using CommandLine;
+using System;
 using System.Collections.Generic;
-using CommandLine;
-using CommandLine.Text;
 
 namespace Sider.CodeAnalyzers
 {
@@ -18,15 +17,13 @@ namespace Sider.CodeAnalyzers
 
 		public static int Main(string[] args)
 		{
-			int exitCode;
+			Tuple<int, string> exitCode;
 
-			var parseResult = (ParserResult<Options>)Parser.Default.ParseArguments<Options>(args);
+			var parseResult = Parser.Default.ParseArguments<Options>(args);
 
 			if (parseResult.Tag == ParserResultType.NotParsed)
 			{
-				var helpText = HelpText.AutoBuild(parseResult);
-				Console.Error.WriteLine(helpText);
-				exitCode = -1;
+				exitCode = Tuple.Create(-1, string.Empty);
 				goto Exit;
 			}
 
@@ -37,17 +34,17 @@ namespace Sider.CodeAnalyzers
 					.Create(parsed.Value.Analyzers)
 					.Diagnose(parsed.Value.Targets)
 					.ToSimpleText();
-				Console.WriteLine(results);
-				exitCode = 0;
+				exitCode = Tuple.Create(0, results);
 			}
 			catch (Exception e)
 			{
-				Console.Error.WriteLine(e);
-				exitCode = 1;
+				exitCode = Tuple.Create(1, e.ToString());
 			}
 
 		Exit:
-			return exitCode;
+			var con = exitCode.Item1 == 0 ? Console.Out : Console.Error;
+			con.WriteLine(exitCode.Item2);
+			return exitCode.Item1;
 		}
 	}
 }
