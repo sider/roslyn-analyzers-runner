@@ -8,6 +8,8 @@ namespace Sider.CodeAnalyzers
 	{
 		[TestMethod]
 		[DeploymentItem(@"example\Class1.cs", @"example")]
+		[DeploymentItem(@"..\..\..\packages\Microsoft.CodeQuality.Analyzers.2.9.8\analyzers\dotnet\cs\Microsoft.CodeQuality.Analyzers.dll")]
+		[DeploymentItem(@"..\..\..\packages\Microsoft.CodeAnalysis.CSharp.Workspaces.3.4.0\lib\netstandard2.0\Microsoft.CodeAnalysis.CSharp.Workspaces.dll")]
 		public void Test_Diagnose()
 		{
 			var expected = @"file: example\Class1.cs
