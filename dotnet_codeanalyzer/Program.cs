@@ -33,7 +33,7 @@ namespace Sider.CodeAnalyzers
 			try
 			{
 				var parsed = (Parsed<Options>)parseResult;
-				var results = CodeAnalyzer.Diagnose(parsed.Value.Analyzers, parsed.Value.Targets);
+				var results = CodeAnalyzer.Create(parsed.Value.Analyzers).Diagnose(parsed.Value.Targets);
 				Console.WriteLine(results);
 				exitCode = 0;
 			}

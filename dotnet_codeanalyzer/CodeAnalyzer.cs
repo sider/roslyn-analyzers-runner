@@ -13,11 +13,25 @@ namespace Sider.CodeAnalyzers
 {
 	public class CodeAnalyzer
 	{
-		public static string Diagnose(IEnumerable<string> diagnosticAnalyzerAssemblyNames, IEnumerable<string> sourceCodeFilePaths)
+		private readonly ImmutableArray<DiagnosticAnalyzer> analyzers;
+		private readonly CompilationOptions compilationOptions;
+
+		private CodeAnalyzer(ImmutableArray<DiagnosticAnalyzer> analyzers, CompilationOptions compilationOptions)
+		{
+			this.analyzers = analyzers;
+			this.compilationOptions = compilationOptions;
+		}
+
+		public static CodeAnalyzer Create(IEnumerable<string> diagnosticAnalyzerAssemblyNames)
 		{
 			var analyzers = ActivateAnalyzers(diagnosticAnalyzerAssemblyNames);
 			var compilationOptions = CreateCompilationOptions(analyzers);
 
+			return new CodeAnalyzer(analyzers, compilationOptions);
+		}
+
+		public string Diagnose(IEnumerable<string> sourceCodeFilePaths)
+		{
 			var results = new StringBuilder();
 
 			foreach (var sourceCodeFilePath in sourceCodeFilePaths)
@@ -25,12 +39,7 @@ namespace Sider.CodeAnalyzers
 				results.AppendLine($"file: {sourceCodeFilePath}");
 				results.AppendLine();
 
-				var solution = CreateAdhocSolutionFromFile(sourceCodeFilePath);
-				var compilation = solution.Projects.First().GetCompilationAsync().Result
-					.WithOptions(compilationOptions)
-					.WithAnalyzers(analyzers);
-
-				foreach (var diagnostic in compilation.GetAnalyzerDiagnosticsAsync().Result)
+				foreach (var diagnostic in Diagnose(sourceCodeFilePath))
 				{
 					results.AppendLine($"id: {diagnostic.Id}");
 					results.AppendLine($"location: {diagnostic.Location}");
@@ -42,6 +51,16 @@ namespace Sider.CodeAnalyzers
 			return results.ToString();
 		}
 
+		private ImmutableArray<Diagnostic> Diagnose(string sourceCodeFilePath)
+		{
+			var solution = CreateAdhocSolutionFromFile(sourceCodeFilePath);
+			var compilation = solution.Projects.First().GetCompilationAsync().Result
+				.WithOptions(this.compilationOptions)
+				.WithAnalyzers(this.analyzers);
+			var diagnostics = compilation.GetAnalyzerDiagnosticsAsync().Result;
+			return diagnostics;
+		}
+
 		private static ImmutableArray<DiagnosticAnalyzer> ActivateAnalyzers(IEnumerable<string> diagnosticAnalyzerAssemblyNames)
 		{
 			var analyzerAssemblies = diagnosticAnalyzerAssemblyNames.Select(n => Assembly.Load(n));
@@ -49,14 +68,14 @@ namespace Sider.CodeAnalyzers
 			var analyzers = analyzerAssemblies
 				.SelectMany(a => a.GetTypes())
 				.Where(t => t.IsSubclassOf(typeof(DiagnosticAnalyzer)))
-				.Where(t => HasTargetLanguages(t, LanguageNames.CSharp))
+				.Where(t => HasTargetLanguage(t, LanguageNames.CSharp))
 				.Select(t => (DiagnosticAnalyzer)Activator.CreateInstance(t))
 				.ToArray();
 
 			return ImmutableArray.Create(analyzers);
 		}
 
-		private static bool HasTargetLanguages(Type analyzerType, string language)
+		private static bool HasTargetLanguage(Type analyzerType, string language)
 		{
 			var attribute = analyzerType.GetCustomAttributes<DiagnosticAnalyzerAttribute>().FirstOrDefault();
 			if (attribute == null)

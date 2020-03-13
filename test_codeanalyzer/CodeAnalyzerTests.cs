@@ -6,6 +6,21 @@ namespace Sider.CodeAnalyzers
 	[TestClass]
 	public class CodeAnalyzerTests
 	{
+		private static CodeAnalyzer codeAnalyzer;
+
+		[ClassInitialize]
+		public static void ClassInitialize(TestContext context)
+		{
+			codeAnalyzer = CodeAnalyzer.Create(new[] { "Microsoft.CodeQuality.Analyzers" });
+		}
+
+		[TestMethod]
+		[ExpectedException(typeof(System.IO.FileNotFoundException))]
+		public void TestCreateWithUnknownAnalyzer()
+		{
+			CodeAnalyzer.Create(new[] { "Microsoft.CodeQuality.Analyzers", "Foo.Bar" });
+		}
+
 		[TestMethod]
 		[DeploymentItem(@"example\Class1.cs", @"example")]
 		[DeploymentItem(@"..\..\..\packages\Microsoft.CodeQuality.Analyzers.2.9.8\analyzers\dotnet\cs\Microsoft.CodeQuality.Analyzers.dll")]
@@ -52,10 +67,7 @@ message: アセンブリに CLSCompliant を設定します
 
 ";
 
-			var actual = CodeAnalyzer.Diagnose(
-				new[] { "Microsoft.CodeQuality.Analyzers" },
-				new[] { @"example\Class1.cs" });
-
+			var actual = codeAnalyzer.Diagnose(new[] { @"example\Class1.cs" });
 
 			Assert.AreEqual(expected, actual);
 		}
