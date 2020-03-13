@@ -120,5 +120,55 @@ message: アセンブリに CLSCompliant を設定します
 			
 			Assert.AreEqual(expected, actual);
 		}
+
+		[TestMethod]
+		[DeploymentItem(MicrosoftCodeQualityAnalyzersDll)]
+		[DeploymentItem(MicrosoftCodeAnalysisCSharpWorkspacesDll)]
+		[DeploymentItem(@"example\TestPy.py", @"example")]
+		[DeploymentItem(@"example\Class4.cs", @"example")]
+		public void TestDiagnoseIllegalFiles()
+		{
+			var expected = @"file: example\TestPy.py
+
+id: CA1823
+location: SourceFile(TestPy.py[47..50))
+message: 未使用のフィールド 'def'。
+
+id: CA1823
+location: SourceFile(TestPy.py[32..37))
+message: 未使用のフィールド 'numpy'。
+
+id: CA1016
+location: None
+message: アセンブリにアセンブリ バージョンを設定します
+
+id: CA1014
+location: None
+message: アセンブリに CLSCompliant を設定します
+
+file: example\Class4.cs
+
+id: CA1823
+location: SourceFile(Class4.cs[47..50))
+message: 未使用のフィールド 'def'。
+
+id: CA1823
+location: SourceFile(Class4.cs[32..37))
+message: 未使用のフィールド 'numpy'。
+
+id: CA1016
+location: None
+message: アセンブリにアセンブリ バージョンを設定します
+
+id: CA1014
+location: None
+message: アセンブリに CLSCompliant を設定します
+
+";
+
+			var actual = codeAnalyzer.Diagnose(new[] { @"example\TestPy.py", @"example\Class4.cs" }).ToSimpleText();
+
+			Assert.AreEqual(expected, actual);
+		}
 	}
 }
