@@ -6,6 +6,9 @@ namespace Sider.CodeAnalyzers
 	[TestClass]
 	public class CodeAnalyzerTests
 	{
+		private const string MicrosoftCodeQualityAnalyzersDll = @"..\..\..\packages\Microsoft.CodeQuality.Analyzers.2.9.8\analyzers\dotnet\cs\Microsoft.CodeQuality.Analyzers.dll";
+		private const string MicrosoftCodeAnalysisCSharpWorkspacesDll = @"..\..\..\packages\Microsoft.CodeAnalysis.CSharp.Workspaces.3.4.0\lib\netstandard2.0\Microsoft.CodeAnalysis.CSharp.Workspaces.dll";
+
 		private static CodeAnalyzer codeAnalyzer;
 
 		[ClassInitialize]
@@ -22,9 +25,9 @@ namespace Sider.CodeAnalyzers
 		}
 
 		[TestMethod]
+		[DeploymentItem(MicrosoftCodeQualityAnalyzersDll)]
+		[DeploymentItem(MicrosoftCodeAnalysisCSharpWorkspacesDll)]
 		[DeploymentItem(@"example\Class1.cs", @"example")]
-		[DeploymentItem(@"..\..\..\packages\Microsoft.CodeQuality.Analyzers.2.9.8\analyzers\dotnet\cs\Microsoft.CodeQuality.Analyzers.dll")]
-		[DeploymentItem(@"..\..\..\packages\Microsoft.CodeAnalysis.CSharp.Workspaces.3.4.0\lib\netstandard2.0\Microsoft.CodeAnalysis.CSharp.Workspaces.dll")]
 		public void TestDiagnose()
 		{
 			var expected = @"file: example\Class1.cs
@@ -69,6 +72,52 @@ message: アセンブリに CLSCompliant を設定します
 
 			var actual = codeAnalyzer.Diagnose(new[] { @"example\Class1.cs" });
 
+			Assert.AreEqual(expected, actual);
+		}
+
+		[TestMethod]
+		[DeploymentItem(MicrosoftCodeQualityAnalyzersDll)]
+		[DeploymentItem(MicrosoftCodeAnalysisCSharpWorkspacesDll)]
+		[DeploymentItem(@"example\Class2.cs", @"example")]
+		[DeploymentItem(@"example\Class3.cs", @"example")]
+		public void TestDiagnoseMultipleFiles()
+		{
+			var expected = @"file: example\Class2.cs
+
+id: CA2219
+location: SourceFile(Class2.cs[204..226))
+message: finally 句内から例外を発生させないでください。 
+
+id: CA1714
+location: SourceFile(Class2.cs[266..274))
+message: フラグ列挙型は、複数形の名前を含んでいなければなりません
+
+id: CA1016
+location: None
+message: アセンブリにアセンブリ バージョンを設定します
+
+id: CA1014
+location: None
+message: アセンブリに CLSCompliant を設定します
+
+file: example\Class3.cs
+
+id: CA1008
+location: SourceFile(Class3.cs[270..274))
+message: 提案された名前 'None' を伴う、値 0 を含む Test にメンバーを追加します。
+
+id: CA1016
+location: None
+message: アセンブリにアセンブリ バージョンを設定します
+
+id: CA1014
+location: None
+message: アセンブリに CLSCompliant を設定します
+
+";
+
+			var actual = codeAnalyzer.Diagnose(new[] { @"example\Class2.cs", @"example\Class3.cs" });
+			
 			Assert.AreEqual(expected, actual);
 		}
 	}
