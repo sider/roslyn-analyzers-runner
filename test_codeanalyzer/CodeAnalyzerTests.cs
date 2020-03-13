@@ -60,14 +60,6 @@ id: CA1812
 location: (10,16)-(10,18)
 message: A2 は、インスタンス化されていない内部クラスです。その場合、コードをアセンブリから削除してください。このクラスが静的メンバーのみを含むことを意図している場合は、このクラスを static (Visual Basic の場合は Shared) にしてください。
 
-id: CA1016
-location: (0,0)-(0,0)
-message: アセンブリにアセンブリ バージョンを設定します
-
-id: CA1014
-location: (0,0)-(0,0)
-message: アセンブリに CLSCompliant を設定します
-
 ";
 
 			var actual = codeAnalyzer.Diagnose(new[] { @"example\Class1.cs" }).ToSimpleText();
@@ -92,27 +84,11 @@ id: CA1714
 location: (21,14)-(21,22)
 message: フラグ列挙型は、複数形の名前を含んでいなければなりません
 
-id: CA1016
-location: (0,0)-(0,0)
-message: アセンブリにアセンブリ バージョンを設定します
-
-id: CA1014
-location: (0,0)-(0,0)
-message: アセンブリに CLSCompliant を設定します
-
 file: example\Class3.cs
 
 id: CA1008
 location: (18,14)-(18,18)
 message: 提案された名前 'None' を伴う、値 0 を含む Test にメンバーを追加します。
-
-id: CA1016
-location: (0,0)-(0,0)
-message: アセンブリにアセンブリ バージョンを設定します
-
-id: CA1014
-location: (0,0)-(0,0)
-message: アセンブリに CLSCompliant を設定します
 
 ";
 
@@ -138,14 +114,6 @@ id: CA1823
 location: (1,7)-(1,12)
 message: 未使用のフィールド 'numpy'。
 
-id: CA1016
-location: (0,0)-(0,0)
-message: アセンブリにアセンブリ バージョンを設定します
-
-id: CA1014
-location: (0,0)-(0,0)
-message: アセンブリに CLSCompliant を設定します
-
 file: example\Class4.cs
 
 id: CA1823
@@ -155,14 +123,6 @@ message: 未使用のフィールド 'def'。
 id: CA1823
 location: (1,7)-(1,12)
 message: 未使用のフィールド 'numpy'。
-
-id: CA1016
-location: (0,0)-(0,0)
-message: アセンブリにアセンブリ バージョンを設定します
-
-id: CA1014
-location: (0,0)-(0,0)
-message: アセンブリに CLSCompliant を設定します
 
 ";
 

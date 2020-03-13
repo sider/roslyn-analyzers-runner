@@ -14,6 +14,7 @@ namespace Sider.CodeAnalyzers
 		{
 			this.SourceCodeFilePath = sourceCodeFilePath;
 			this.Diagnostics = diagnostics
+				.Where(d => d.Location != Location.None) // 有効なLocation値を持つ(ソースコードファイルに対する)結果のみを残す
 				.Select(d => DiagnosticResult.CreateFrom(d))
 				.ToImmutableArray();
 		}
