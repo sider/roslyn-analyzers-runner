@@ -11,6 +11,18 @@ using System.Reflection;
 
 namespace Sider.CodeAnalyzers
 {
+	public class DiagnosticResult
+	{
+		public string SourceCodeFilePath { get; private set; }
+		public ImmutableArray<Diagnostic> Diagnostics { get; private set; }
+
+		public DiagnosticResult(string sourceCodeFilePath, ImmutableArray<Diagnostic> diagnostics)
+		{
+			this.SourceCodeFilePath = sourceCodeFilePath;
+			this.Diagnostics = diagnostics;
+		}
+	}
+
 	public class CodeAnalyzer
 	{
 		private readonly ImmutableArray<DiagnosticAnalyzer> analyzers;
@@ -30,25 +42,12 @@ namespace Sider.CodeAnalyzers
 			return new CodeAnalyzer(analyzers, compilationOptions);
 		}
 
-		public string Diagnose(IEnumerable<string> sourceCodeFilePaths)
+		public ImmutableArray<DiagnosticResult> Diagnose(IEnumerable<string> sourceCodeFilePaths)
 		{
-			var results = new StringBuilder();
-
-			foreach (var sourceCodeFilePath in sourceCodeFilePaths)
-			{
-				results.AppendLine($"file: {sourceCodeFilePath}");
-				results.AppendLine();
-
-				foreach (var diagnostic in Diagnose(sourceCodeFilePath))
-				{
-					results.AppendLine($"id: {diagnostic.Id}");
-					results.AppendLine($"location: {diagnostic.Location}");
-					results.AppendLine($"message: {diagnostic.GetMessage()}");
-					results.AppendLine();
-				}
-			}
-
-			return results.ToString();
+			var results = sourceCodeFilePaths
+				.Select(f => new DiagnosticResult(f, Diagnose(f)))
+				.ToImmutableArray();
+			return results;
 		}
 
 		private ImmutableArray<Diagnostic> Diagnose(string sourceCodeFilePath)

@@ -70,7 +70,7 @@ message: アセンブリに CLSCompliant を設定します
 
 ";
 
-			var actual = codeAnalyzer.Diagnose(new[] { @"example\Class1.cs" });
+			var actual = codeAnalyzer.Diagnose(new[] { @"example\Class1.cs" }).ToSimpleText();
 
 			Assert.AreEqual(expected, actual);
 		}
@@ -116,7 +116,7 @@ message: アセンブリに CLSCompliant を設定します
 
 ";
 
-			var actual = codeAnalyzer.Diagnose(new[] { @"example\Class2.cs", @"example\Class3.cs" });
+			var actual = codeAnalyzer.Diagnose(new[] { @"example\Class2.cs", @"example\Class3.cs" }).ToSimpleText();
 			
 			Assert.AreEqual(expected, actual);
 		}
