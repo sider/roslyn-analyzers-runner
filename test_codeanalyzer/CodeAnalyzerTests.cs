@@ -8,14 +8,7 @@ namespace Sider.CodeAnalyzers
 	{
 		private const string MicrosoftCodeQualityAnalyzersDll = @"..\..\..\packages\Microsoft.CodeQuality.Analyzers.2.9.8\analyzers\dotnet\cs\Microsoft.CodeQuality.Analyzers.dll";
 		private const string MicrosoftCodeAnalysisCSharpWorkspacesDll = @"..\..\..\packages\Microsoft.CodeAnalysis.CSharp.Workspaces.3.4.0\lib\netstandard2.0\Microsoft.CodeAnalysis.CSharp.Workspaces.dll";
-
-		private static CodeAnalyzer codeAnalyzer;
-
-		[ClassInitialize]
-		public static void ClassInitialize(TestContext context)
-		{
-			codeAnalyzer = CodeAnalyzer.Create(new[] { "Microsoft.CodeQuality.Analyzers" });
-		}
+		private const string MicrosoftNetCoreAnalyzersDll = @"..\..\..\packages\Microsoft.NetCore.Analyzers.2.9.8\analyzers\dotnet\cs\Microsoft.NetCore.Analyzers.dll";
 
 		[TestMethod]
 		[ExpectedException(typeof(System.IO.FileNotFoundException))]
@@ -62,7 +55,9 @@ message: A2 は、インスタンス化されていない内部クラスです�
 
 ";
 
-			var actual = codeAnalyzer.Diagnose(new[] { @"example\Class1.cs" }).ToSimpleText();
+			var actual = CodeAnalyzer.Create(new[] { "Microsoft.CodeQuality.Analyzers" })
+				.Diagnose(new[] { @"example\Class1.cs" })
+				.ToSimpleText();
 
 			Assert.AreEqual(expected, actual);
 		}
@@ -77,12 +72,16 @@ message: A2 は、インスタンス化されていない内部クラスです�
 			var expected = @"file: example\Class2.cs
 
 id: CA2219
-location: (16,4)-(16,26)
+location: (20,4)-(20,26)
 message: finally 句内から例外を発生させないでください。 
 
 id: CA1714
-location: (21,14)-(21,22)
+location: (25,14)-(25,22)
 message: フラグ列挙型は、複数形の名前を含んでいなければなりません
+
+id: CA1060
+location: (7,14)-(7,20)
+message: pinvoke をネイティブ メソッド クラスに移動します
 
 file: example\Class3.cs
 
@@ -92,7 +91,9 @@ message: 提案された名前 'None' を伴う、値 0 を含む Test にメン
 
 ";
 
-			var actual = codeAnalyzer.Diagnose(new[] { @"example\Class2.cs", @"example\Class3.cs" }).ToSimpleText();
+			var actual = CodeAnalyzer.Create(new[] { "Microsoft.CodeQuality.Analyzers" })
+				.Diagnose(new[] { @"example\Class2.cs", @"example\Class3.cs" })
+				.ToSimpleText();
 			
 			Assert.AreEqual(expected, actual);
 		}
@@ -126,7 +127,80 @@ message: 未使用のフィールド 'numpy'。
 
 ";
 
-			var actual = codeAnalyzer.Diagnose(new[] { @"example\TestPy.py", @"example\Class4.cs" }).ToSimpleText();
+			var actual = CodeAnalyzer.Create(new[] { "Microsoft.CodeQuality.Analyzers" })
+				.Diagnose(new[] { @"example\TestPy.py", @"example\Class4.cs" })
+				.ToSimpleText();
+
+			Assert.AreEqual(expected, actual);
+		}
+
+		[TestMethod]
+		[DeploymentItem(MicrosoftNetCoreAnalyzersDll)]
+		[DeploymentItem(MicrosoftCodeAnalysisCSharpWorkspacesDll)]
+		[DeploymentItem(@"example\Class2.cs", @"example")]
+		public void TestDiagnoseNetCoreAnalyzers()
+		{
+			var expected = @"file: example\Class2.cs
+
+id: CA5392
+location: (10,28)-(10,41)
+message: メソッド SetWindowText で、P/Invoke に対して DefaultDllImportSearchPaths 属性が使用されませんでした。
+
+id: CA1401
+location: (10,28)-(10,41)
+message: P/Invoke メソッド 'SetWindowText' は参照可能にすることはできません
+
+id: CA2101
+location: (9,3)-(9,56)
+message: P/Invoke 文字列引数に対してマーシャリングを指定します
+
+";
+
+			var actual = CodeAnalyzer.Create(new[] { "Microsoft.NetCore.Analyzers" })
+				.Diagnose(new[] { @"example\Class2.cs" })
+				.ToSimpleText();
+
+			Assert.AreEqual(expected, actual);
+		}
+
+		[TestMethod]
+		[DeploymentItem(MicrosoftCodeQualityAnalyzersDll)]
+		[DeploymentItem(MicrosoftNetCoreAnalyzersDll)]
+		[DeploymentItem(MicrosoftCodeAnalysisCSharpWorkspacesDll)]
+		[DeploymentItem(@"example\Class2.cs", @"example")]
+		public void TestDiagnoseMultipleAnalyzers()
+		{
+			var expected = @"file: example\Class2.cs
+
+id: CA2219
+location: (20,4)-(20,26)
+message: finally 句内から例外を発生させないでください。 
+
+id: CA1714
+location: (25,14)-(25,22)
+message: フラグ列挙型は、複数形の名前を含んでいなければなりません
+
+id: CA1060
+location: (7,14)-(7,20)
+message: pinvoke をネイティブ メソッド クラスに移動します
+
+id: CA5392
+location: (10,28)-(10,41)
+message: メソッド SetWindowText で、P/Invoke に対して DefaultDllImportSearchPaths 属性が使用されませんでした。
+
+id: CA1401
+location: (10,28)-(10,41)
+message: P/Invoke メソッド 'SetWindowText' は参照可能にすることはできません
+
+id: CA2101
+location: (9,3)-(9,56)
+message: P/Invoke 文字列引数に対してマーシャリングを指定します
+
+";
+
+			var actual = CodeAnalyzer.Create(new[] { "Microsoft.CodeQuality.Analyzers", "Microsoft.NetCore.Analyzers" })
+				.Diagnose(new[] { @"example\Class2.cs" })
+				.ToSimpleText();
 
 			Assert.AreEqual(expected, actual);
 		}
