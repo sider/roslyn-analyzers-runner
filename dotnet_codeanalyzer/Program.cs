@@ -1,16 +1,16 @@
 ﻿using CommandLine;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 
 namespace Sider.CodeAnalyzers
 {
 	public static class Program
 	{
+		private static string[] Analyzers = Newtonsoft.Json.JsonConvert.DeserializeObject<string[]>(ConfigurationManager.AppSettings["analyzers"]);
+
 		private class Options
 		{
-			[Option()]
-			public IEnumerable<string> Analyzers { get; set; }
-
 			[Option()]
 			public IEnumerable<string> Targets { get; set; }
 		}
@@ -31,7 +31,7 @@ namespace Sider.CodeAnalyzers
 			{
 				var parsed = (Parsed<Options>)parseResult;
 				var results = CodeAnalyzer
-					.Create(parsed.Value.Analyzers)
+					.Create(Analyzers)
 					.Diagnose(parsed.Value.Targets)
 					.ToJsonString();
 				exitCode = Tuple.Create(0, results);
