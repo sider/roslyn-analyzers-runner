@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 using System.Collections.Immutable;
+using System.Globalization;
 using System.Linq;
 
 namespace Sider.CodeAnalyzers
@@ -44,8 +45,8 @@ namespace Sider.CodeAnalyzers
 				Message = diagnostic.GetMessage(),
 				WarningLevel = diagnostic.WarningLevel,
 				Severity = diagnostic.Severity,
-				Title = descriptor.Title.ToString(),
-				Description = descriptor.Description.ToString(),
+				Title = descriptor.Title.ToString(CultureInfo.CurrentCulture),
+				Description = descriptor.Description.ToString(CultureInfo.CurrentCulture),
 				HelpLinkUri = descriptor.HelpLinkUri,
 				Category = descriptor.Category,
 			};
