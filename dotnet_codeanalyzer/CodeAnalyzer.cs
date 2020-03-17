@@ -98,20 +98,16 @@ namespace Sider.CodeAnalyzers
 			const string PrjName = "adhoc";
 			var RefTypes = new[] { typeof(object) };
 
-			using (var workspace = new AdhocWorkspace())
-			{
-				var project = workspace.CurrentSolution
-					.AddProject(PrjName, PrjName, LanguageNames.CSharp)
-					.AddMetadataReferences(RefTypes.Select(t => MetadataReference.CreateFromFile(t.Assembly.Location)));
+			using var workspace = new AdhocWorkspace();
+			var project = workspace.CurrentSolution
+				.AddProject(PrjName, PrjName, LanguageNames.CSharp)
+				.AddMetadataReferences(RefTypes.Select(t => MetadataReference.CreateFromFile(t.Assembly.Location)));
 
-				var file = new FileInfo(filePath);
-				using (var fileStream = File.Open(file.FullName, FileMode.Open, FileAccess.Read)) // TODO: エンコーディングを考慮せよ。とりあえず、TextReaderではなくて生のFileStreamで開く。
-				{
-					var document = project.AddDocument(file.Name, SourceText.From(fileStream));
-					project = document.Project;
-					return project.Solution;
-				}
-			}
+			var file = new FileInfo(filePath);
+			using var fileStream = File.Open(file.FullName, FileMode.Open, FileAccess.Read); // TODO: エンコーディングを考慮せよ。とりあえず、TextReaderではなくて生のFileStreamで開く。
+			var document = project.AddDocument(file.Name, SourceText.From(fileStream));
+			project = document.Project;
+			return project.Solution;
 		}
 	}
 }
