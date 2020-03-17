@@ -8,7 +8,7 @@ namespace Sider.CodeAnalyzers
 	public static class Program
 	{
 		private static readonly string[] Analyzers =
-			ConfigurationManager.AppSettings["analyzers"].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+			Newtonsoft.Json.JsonConvert.DeserializeObject<string[]>(ConfigurationManager.AppSettings["analyzers"]);
 
 		private class Options
 		{
