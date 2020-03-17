@@ -17,10 +17,42 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="example\Class1.cs" />
+    <Compile Remove="example\Class2.cs" />
+    <Compile Remove="example\Class3.cs" />
+    <Compile Remove="example\Class4.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="example\Class1.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="example\Class2.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="example\Class3.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="example\Class4.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.0.0" />
     <PackageReference Include="MSTest.TestFramework" Version="2.0.0" />
     <PackageReference Include="coverlet.collector" Version="1.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\dotnet_codeanalyzer\dotnet_codeanalyzer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="example\TestPy.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

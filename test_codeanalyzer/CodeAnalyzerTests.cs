@@ -6,24 +6,23 @@ namespace Sider.CodeAnalyzers
 	[TestClass]
 	public class CodeAnalyzerTests
 	{
-		private const string MicrosoftCodeQualityAnalyzersDll = @"..\..\..\packages\Microsoft.CodeQuality.Analyzers.2.9.8\analyzers\dotnet\cs\Microsoft.CodeQuality.Analyzers.dll";
-		private const string MicrosoftCodeAnalysisCSharpWorkspacesDll = @"..\..\..\packages\Microsoft.CodeAnalysis.CSharp.Workspaces.3.4.0\lib\netstandard2.0\Microsoft.CodeAnalysis.CSharp.Workspaces.dll";
-		private const string MicrosoftNetCoreAnalyzersDll = @"..\..\..\packages\Microsoft.NetCore.Analyzers.2.9.8\analyzers\dotnet\cs\Microsoft.NetCore.Analyzers.dll";
+		private const string MicrosoftCodeQualityAnalyzersDll = @"%global‑packages%/microsoft.codequality.analyzers/2.9.8/analyzers/dotnet/cs/Microsoft.CodeQuality.Analyzers.dll";
+		private const string MicrosoftNetCoreAnalyzersDll = @"%global‑packages%/microsoft.netcore.analyzers/2.9.8/analyzers/dotnet/cs/Microsoft.NetCore.Analyzers.dll";
 
 		[TestMethod]
 		[ExpectedException(typeof(System.IO.FileNotFoundException))]
 		public void TestCreateWithUnknownAnalyzer()
 		{
-			CodeAnalyzer.Create(new[] { "Microsoft.CodeQuality.Analyzers", "Foo.Bar" });
+			const string FooBarDll = @"%global‑packages%/microsoft.codequality.analyzers/2.9.8/analyzers/dotnet/cs/Foo.Bar.dll";
+
+			CodeAnalyzer.Create(new[] { MicrosoftCodeQualityAnalyzersDll, FooBarDll });
 		}
 
 		[TestMethod]
-		[DeploymentItem(MicrosoftCodeQualityAnalyzersDll)]
-		[DeploymentItem(MicrosoftCodeAnalysisCSharpWorkspacesDll)]
-		[DeploymentItem(@"example\Class1.cs", @"example")]
+		[DeploymentItem(@"example/Class1.cs", @"example")]
 		public void TestDiagnose()
 		{
-			var expected = @"file: example\Class1.cs
+			var expected = @"file: example/Class1.cs
 
 id: CA2219
 location: (89,4)-(89,26)
@@ -55,21 +54,19 @@ message: A2 は、インスタンス化されていない内部クラスです�
 
 ";
 
-			var actual = CodeAnalyzer.Create(new[] { "Microsoft.CodeQuality.Analyzers" })
-				.Diagnose(new[] { @"example\Class1.cs" })
+			var actual = CodeAnalyzer.Create(new[] { MicrosoftCodeQualityAnalyzersDll })
+				.Diagnose(new[] { @"example/Class1.cs" })
 				.ToSimpleText();
 
 			Assert.AreEqual(expected, actual);
 		}
 
 		[TestMethod]
-		[DeploymentItem(MicrosoftCodeQualityAnalyzersDll)]
-		[DeploymentItem(MicrosoftCodeAnalysisCSharpWorkspacesDll)]
-		[DeploymentItem(@"example\Class2.cs", @"example")]
-		[DeploymentItem(@"example\Class3.cs", @"example")]
+		[DeploymentItem(@"example/Class2.cs", @"example")]
+		[DeploymentItem(@"example/Class3.cs", @"example")]
 		public void TestDiagnoseMultipleFiles()
 		{
-			var expected = @"file: example\Class2.cs
+			var expected = @"file: example/Class2.cs
 
 id: CA2219
 location: (20,4)-(20,26)
@@ -83,7 +80,7 @@ id: CA1060
 location: (7,14)-(7,20)
 message: pinvoke をネイティブ メソッド クラスに移動します
 
-file: example\Class3.cs
+file: example/Class3.cs
 
 id: CA1008
 location: (18,14)-(18,18)
@@ -91,21 +88,19 @@ message: 提案された名前 'None' を伴う、値 0 を含む Test にメン
 
 ";
 
-			var actual = CodeAnalyzer.Create(new[] { "Microsoft.CodeQuality.Analyzers" })
-				.Diagnose(new[] { @"example\Class2.cs", @"example\Class3.cs" })
+			var actual = CodeAnalyzer.Create(new[] { MicrosoftCodeQualityAnalyzersDll })
+				.Diagnose(new[] { @"example/Class2.cs", @"example/Class3.cs" })
 				.ToSimpleText();
 			
 			Assert.AreEqual(expected, actual);
 		}
 
 		[TestMethod]
-		[DeploymentItem(MicrosoftCodeQualityAnalyzersDll)]
-		[DeploymentItem(MicrosoftCodeAnalysisCSharpWorkspacesDll)]
-		[DeploymentItem(@"example\TestPy.py", @"example")]
-		[DeploymentItem(@"example\Class4.cs", @"example")]
+		[DeploymentItem(@"example/TestPy.py", @"example")]
+		[DeploymentItem(@"example/Class4.cs", @"example")]
 		public void TestDiagnoseIllegalFiles()
 		{
-			var expected = @"file: example\TestPy.py
+			var expected = @"file: example/TestPy.py
 
 id: CA1823
 location: (3,0)-(3,3)
@@ -115,7 +110,7 @@ id: CA1823
 location: (1,7)-(1,12)
 message: 未使用のフィールド 'numpy'。
 
-file: example\Class4.cs
+file: example/Class4.cs
 
 id: CA1823
 location: (3,0)-(3,3)
@@ -127,20 +122,18 @@ message: 未使用のフィールド 'numpy'。
 
 ";
 
-			var actual = CodeAnalyzer.Create(new[] { "Microsoft.CodeQuality.Analyzers" })
-				.Diagnose(new[] { @"example\TestPy.py", @"example\Class4.cs" })
+			var actual = CodeAnalyzer.Create(new[] { MicrosoftCodeQualityAnalyzersDll })
+				.Diagnose(new[] { @"example/TestPy.py", @"example/Class4.cs" })
 				.ToSimpleText();
 
 			Assert.AreEqual(expected, actual);
 		}
 
 		[TestMethod]
-		[DeploymentItem(MicrosoftNetCoreAnalyzersDll)]
-		[DeploymentItem(MicrosoftCodeAnalysisCSharpWorkspacesDll)]
-		[DeploymentItem(@"example\Class2.cs", @"example")]
+		[DeploymentItem(@"example/Class2.cs", @"example")]
 		public void TestDiagnoseNetCoreAnalyzers()
 		{
-			var expected = @"file: example\Class2.cs
+			var expected = @"file: example/Class2.cs
 
 id: CA5392
 location: (10,28)-(10,41)
@@ -156,21 +149,18 @@ message: P/Invoke 文字列引数に対してマーシャリングを指定し�
 
 ";
 
-			var actual = CodeAnalyzer.Create(new[] { "Microsoft.NetCore.Analyzers" })
-				.Diagnose(new[] { @"example\Class2.cs" })
+			var actual = CodeAnalyzer.Create(new[] { MicrosoftNetCoreAnalyzersDll })
+				.Diagnose(new[] { @"example/Class2.cs" })
 				.ToSimpleText();
 
 			Assert.AreEqual(expected, actual);
 		}
 
 		[TestMethod]
-		[DeploymentItem(MicrosoftCodeQualityAnalyzersDll)]
-		[DeploymentItem(MicrosoftNetCoreAnalyzersDll)]
-		[DeploymentItem(MicrosoftCodeAnalysisCSharpWorkspacesDll)]
-		[DeploymentItem(@"example\Class2.cs", @"example")]
+		[DeploymentItem(@"example/Class2.cs", @"example")]
 		public void TestDiagnoseMultipleAnalyzers()
 		{
-			var expected = @"file: example\Class2.cs
+			var expected = @"file: example/Class2.cs
 
 id: CA2219
 location: (20,4)-(20,26)
@@ -198,8 +188,8 @@ message: P/Invoke 文字列引数に対してマーシャリングを指定し�
 
 ";
 
-			var actual = CodeAnalyzer.Create(new[] { "Microsoft.CodeQuality.Analyzers", "Microsoft.NetCore.Analyzers" })
-				.Diagnose(new[] { @"example\Class2.cs" })
+			var actual = CodeAnalyzer.Create(new[] { MicrosoftCodeQualityAnalyzersDll, MicrosoftNetCoreAnalyzersDll })
+				.Diagnose(new[] { @"example/Class2.cs" })
 				.ToSimpleText();
 
 			Assert.AreEqual(expected, actual);
