@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 
 namespace Sider.CodeAnalyzers
 {
@@ -12,40 +13,47 @@ namespace Sider.CodeAnalyzers
 
 		private class Options
 		{
+			public const string Stdout = "-";
+
+			[Option(Default = Stdout)]
+			public string OutputFile { get; set; }
+
 			[Option()]
 			public IEnumerable<string> Targets { get; set; }
 		}
 
 		public static int Main(string[] args)
 		{
-			Tuple<int, string> exitCode;
+			int exitCode;
 
 			var parseResult = Parser.Default.ParseArguments<Options>(args);
 
 			if (parseResult.Tag == ParserResultType.NotParsed)
 			{
-				exitCode = Tuple.Create(-1, string.Empty);
+				exitCode = -1;
 				goto Exit;
 			}
 
 			try
 			{
 				var parsed = (Parsed<Options>)parseResult;
-				var results = CodeAnalyzer
+				var outputFile = parsed.Value.OutputFile;
+				using var writer = outputFile == Options.Stdout ? Console.Out : File.CreateText(outputFile);
+
+				CodeAnalyzer
 					.Create(Analyzers)
 					.Diagnose(parsed.Value.Targets)
-					.ToJsonString();
-				exitCode = Tuple.Create(0, results);
+					.DumpJsonStringTo(writer);
+				exitCode = 0;
 			}
 			catch (Exception e)
 			{
-				exitCode = Tuple.Create(1, e.ToString());
+				Console.Error.WriteLine(e);
+				exitCode = 1;
 			}
 
 		Exit:
-			var con = exitCode.Item1 == 0 ? Console.Out : Console.Error;
-			con.WriteLine(exitCode.Item2);
-			return exitCode.Item1;
+			return exitCode;
 		}
 	}
 }

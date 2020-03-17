@@ -1,4 +1,6 @@
-﻿using System.Collections.Immutable;
+﻿using Newtonsoft.Json;
+using System.Collections.Immutable;
+using System.IO;
 using System.Text;
 
 namespace Sider.CodeAnalyzers
@@ -28,7 +30,13 @@ namespace Sider.CodeAnalyzers
 
 		public static string ToJsonString(this ImmutableArray<AnalysisResult> analysisResults)
 		{
-			return Newtonsoft.Json.JsonConvert.SerializeObject(analysisResults);
+			return JsonConvert.SerializeObject(analysisResults);
+		}
+
+		public static void DumpJsonStringTo(this ImmutableArray<AnalysisResult> analysisResults, TextWriter textWriter)
+		{
+			var serializer = new JsonSerializer();
+			serializer.Serialize(textWriter, analysisResults);
 		}
 	}
 }

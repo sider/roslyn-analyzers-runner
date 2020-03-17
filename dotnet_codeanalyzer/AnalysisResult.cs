@@ -33,7 +33,6 @@ namespace Sider.CodeAnalyzers
 		public string HelpLinkUri { get; private set; }
 		public string Category { get; private set; }
 
-
 		public static DiagnosticResult CreateFrom(Diagnostic diagnostic)
 		{
 			var descriptor = diagnostic.Descriptor;

@@ -2,7 +2,7 @@
   "profiles": {
     "dotnet_codeanalyzer": {
       "commandName": "Project",
-      "commandLineArgs": "--targets ../../../../test_codeanalyzer/example/Class2.cs ../../../../test_codeanalyzer/example/Class3.cs"
+      "commandLineArgs": "--outputfile results.json --targets ../../../../test_codeanalyzer/example/Class2.cs ../../../../test_codeanalyzer/example/Class3.cs"
     }
   }
 }
