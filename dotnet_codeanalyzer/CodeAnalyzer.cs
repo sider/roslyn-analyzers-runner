@@ -7,6 +7,7 @@ using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 
 namespace Sider.CodeAnalyzers
 {
@@ -49,7 +50,7 @@ namespace Sider.CodeAnalyzers
 
 		private static ImmutableArray<DiagnosticAnalyzer> ActivateAnalyzers(IEnumerable<string> diagnosticAnalyzerAssemblyNames)
 		{
-			var analyzerAssemblies = diagnosticAnalyzerAssemblyNames.Select(n => Assembly.Load(n));
+			var analyzerAssemblies = diagnosticAnalyzerAssemblyNames.Select(n => Assembly.LoadFrom(ExpandFilePath(n)));
 
 			var analyzers = analyzerAssemblies
 				.SelectMany(a => a.GetTypes())
@@ -59,6 +60,17 @@ namespace Sider.CodeAnalyzers
 				.ToArray();
 
 			return ImmutableArray.Create(analyzers);
+		}
+
+		private static string ExpandFilePath(string filePathTemplate)
+		{
+			var userProfilePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+
+			var filePath = new StringBuilder(filePathTemplate)
+				.Replace("%global‑packages%", Path.Combine(userProfilePath, @".nuget/packages"))
+				.Replace("%userprofile%", userProfilePath)
+				.ToString();
+			return filePath;
 		}
 
 		private static bool HasTargetLanguage(Type analyzerType, string language)
