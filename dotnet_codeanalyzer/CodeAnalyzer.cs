@@ -13,21 +13,23 @@ namespace Sider.CodeAnalyzers
 {
 	public class CodeAnalyzer
 	{
+		private readonly Language language;
 		private readonly ImmutableArray<DiagnosticAnalyzer> analyzers;
 		private readonly CompilationOptions compilationOptions;
 
-		private CodeAnalyzer(ImmutableArray<DiagnosticAnalyzer> analyzers, CompilationOptions compilationOptions)
+		private CodeAnalyzer(Language language, ImmutableArray<DiagnosticAnalyzer> analyzers, CompilationOptions compilationOptions)
 		{
+			this.language = language;
 			this.analyzers = analyzers;
 			this.compilationOptions = compilationOptions;
 		}
 
-		public static CodeAnalyzer Create(IEnumerable<string> diagnosticAnalyzerAssemblyNames)
+		public static CodeAnalyzer Create(Language language, IEnumerable<string> diagnosticAnalyzerAssemblyNames)
 		{
-			var analyzers = ActivateAnalyzers(diagnosticAnalyzerAssemblyNames);
-			var compilationOptions = CreateCompilationOptions(analyzers);
+			var analyzers = ActivateAnalyzers(language, diagnosticAnalyzerAssemblyNames);
+			var compilationOptions = CreateCompilationOptions(language, analyzers);
 
-			return new CodeAnalyzer(analyzers, compilationOptions);
+			return new CodeAnalyzer(language, analyzers, compilationOptions);
 		}
 
 		public ImmutableArray<AnalysisResult> Diagnose(IEnumerable<string> sourceCodeFilePaths)
@@ -40,7 +42,7 @@ namespace Sider.CodeAnalyzers
 
 		private ImmutableArray<Diagnostic> Diagnose(string sourceCodeFilePath)
 		{
-			var solution = CreateAdhocSolutionFromFile(sourceCodeFilePath);
+			var solution = CreateAdhocSolutionFromFile(this.language, sourceCodeFilePath);
 			var compilation = solution.Projects.First().GetCompilationAsync().Result
 				.WithOptions(this.compilationOptions)
 				.WithAnalyzers(this.analyzers);
@@ -48,14 +50,14 @@ namespace Sider.CodeAnalyzers
 			return diagnostics;
 		}
 
-		private static ImmutableArray<DiagnosticAnalyzer> ActivateAnalyzers(IEnumerable<string> diagnosticAnalyzerAssemblyNames)
+		private static ImmutableArray<DiagnosticAnalyzer> ActivateAnalyzers(Language language, IEnumerable<string> diagnosticAnalyzerAssemblyNames)
 		{
 			var analyzerAssemblies = diagnosticAnalyzerAssemblyNames.Select(n => Assembly.LoadFrom(ExpandFilePath(n)));
 
 			var analyzers = analyzerAssemblies
 				.SelectMany(a => a.GetTypes())
 				.Where(t => t.IsSubclassOf(typeof(DiagnosticAnalyzer)))
-				.Where(t => HasTargetLanguage(t, LanguageNames.CSharp))
+				.Where(t => HasTargetLanguage(t, language.ToName()))
 				.Select(t => (DiagnosticAnalyzer)Activator.CreateInstance(t))
 				.ToArray();
 
@@ -84,23 +86,23 @@ namespace Sider.CodeAnalyzers
 			return attribute.Languages.Contains(language);
 		}
 
-		private static CompilationOptions CreateCompilationOptions(ImmutableArray<DiagnosticAnalyzer> analyzers)
+		private static CompilationOptions CreateCompilationOptions(Language language, ImmutableArray<DiagnosticAnalyzer> analyzers)
 		{
-			var compilationOptions = new Microsoft.CodeAnalysis.CSharp.CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)
+			var compilationOptions = language.ToCompilationOptions()
 				.WithSpecificDiagnosticOptions(
 					analyzers.SelectMany(a => a.SupportedDiagnostics)
 					.Select(d => new KeyValuePair<string, ReportDiagnostic>(d.Id, ReportDiagnostic.Warn))); // すべての診断を警告(有効)にしている。既定では無効のものも存在しているので。
 			return compilationOptions;
 		}
 
-		private static Solution CreateAdhocSolutionFromFile(string filePath)
+		private static Solution CreateAdhocSolutionFromFile(Language language, string filePath)
 		{
 			const string PrjName = "adhoc";
 			var RefTypes = new[] { typeof(object) };
 
 			using var workspace = new AdhocWorkspace();
 			var project = workspace.CurrentSolution
-				.AddProject(PrjName, PrjName, LanguageNames.CSharp)
+				.AddProject(PrjName, PrjName, language.ToName())
 				.AddMetadataReferences(RefTypes.Select(t => MetadataReference.CreateFromFile(t.Assembly.Location)));
 
 			var file = new FileInfo(filePath);

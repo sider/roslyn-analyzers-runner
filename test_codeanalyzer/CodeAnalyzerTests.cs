@@ -5,6 +5,8 @@ namespace Sider.CodeAnalyzers
 	[TestClass]
 	public class CodeAnalyzerTests
 	{
+		private const Language CSharp = Language.CSharp;
+
 		private const string MicrosoftCodeQualityAnalyzersDll = @"%global‑packages%/microsoft.codequality.analyzers/2.9.8/analyzers/dotnet/cs/Microsoft.CodeQuality.Analyzers.dll";
 		private const string MicrosoftNetCoreAnalyzersDll = @"%global‑packages%/microsoft.netcore.analyzers/2.9.8/analyzers/dotnet/cs/Microsoft.NetCore.Analyzers.dll";
 
@@ -14,7 +16,7 @@ namespace Sider.CodeAnalyzers
 		{
 			const string FooBarDll = @"%global‑packages%/microsoft.codequality.analyzers/2.9.8/analyzers/dotnet/cs/Foo.Bar.dll";
 
-			CodeAnalyzer.Create(new[] { MicrosoftCodeQualityAnalyzersDll, FooBarDll });
+			CodeAnalyzer.Create(CSharp, new[] { MicrosoftCodeQualityAnalyzersDll, FooBarDll });
 		}
 
 		[TestMethod]
@@ -53,7 +55,7 @@ message: A2 は、インスタンス化されていない内部クラスです�
 
 ";
 
-			var actual = CodeAnalyzer.Create(new[] { MicrosoftCodeQualityAnalyzersDll })
+			var actual = CodeAnalyzer.Create(CSharp, new[] { MicrosoftCodeQualityAnalyzersDll })
 				.Diagnose(new[] { @"example/Class1.cs" })
 				.ToSimpleText();
 
@@ -87,7 +89,7 @@ message: 提案された名前 'None' を伴う、値 0 を含む Test にメン
 
 ";
 
-			var actual = CodeAnalyzer.Create(new[] { MicrosoftCodeQualityAnalyzersDll })
+			var actual = CodeAnalyzer.Create(CSharp, new[] { MicrosoftCodeQualityAnalyzersDll })
 				.Diagnose(new[] { @"example/Class2.cs", @"example/Class3.cs" })
 				.ToSimpleText();
 			
@@ -121,7 +123,7 @@ message: 未使用のフィールド 'numpy'。
 
 ";
 
-			var actual = CodeAnalyzer.Create(new[] { MicrosoftCodeQualityAnalyzersDll })
+			var actual = CodeAnalyzer.Create(CSharp, new[] { MicrosoftCodeQualityAnalyzersDll })
 				.Diagnose(new[] { @"example/TestPy.py", @"example/Class4.cs" })
 				.ToSimpleText();
 
@@ -148,7 +150,7 @@ message: P/Invoke 文字列引数に対してマーシャリングを指定し�
 
 ";
 
-			var actual = CodeAnalyzer.Create(new[] { MicrosoftNetCoreAnalyzersDll })
+			var actual = CodeAnalyzer.Create(CSharp, new[] { MicrosoftNetCoreAnalyzersDll })
 				.Diagnose(new[] { @"example/Class2.cs" })
 				.ToSimpleText();
 
@@ -187,7 +189,7 @@ message: P/Invoke 文字列引数に対してマーシャリングを指定し�
 
 ";
 
-			var actual = CodeAnalyzer.Create(new[] { MicrosoftCodeQualityAnalyzersDll, MicrosoftNetCoreAnalyzersDll })
+			var actual = CodeAnalyzer.Create(CSharp, new[] { MicrosoftCodeQualityAnalyzersDll, MicrosoftNetCoreAnalyzersDll })
 				.Diagnose(new[] { @"example/Class2.cs" })
 				.ToSimpleText();
 

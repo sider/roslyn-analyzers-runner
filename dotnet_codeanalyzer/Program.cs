@@ -15,6 +15,9 @@ namespace Sider.CodeAnalyzers
 		{
 			public const string Stdout = "-";
 
+			[Option(Default = Language.CSharp)]
+			public Language Language { get; set; }
+
 			[Option(Default = Stdout)]
 			public string OutputFile { get; set; }
 
@@ -41,7 +44,7 @@ namespace Sider.CodeAnalyzers
 				using var writer = outputFile == Options.Stdout ? Console.Out : File.CreateText(outputFile);
 
 				CodeAnalyzer
-					.Create(Analyzers)
+					.Create(parsed.Value.Language, Analyzers)
 					.Diagnose(parsed.Value.Targets)
 					.DumpJsonStringTo(writer);
 				exitCode = 0;
