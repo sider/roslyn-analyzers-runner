@@ -7,6 +7,7 @@
     <AssemblyName>codeanalyzer</AssemblyName>
     <RootNamespace>Sider.CodeAnalyzers</RootNamespace>
     <StartupObject>Sider.CodeAnalyzers.Program</StartupObject>
+    <Version>0.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
