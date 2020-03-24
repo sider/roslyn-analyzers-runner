@@ -7,12 +7,14 @@ How to run:
 
 ## Prerequisites
 
-```$ dotnet tool install --global dotnet-tarball
+```
+$ dotnet tool install --global dotnet-tarball
 ```
 
 ## How to build
 
-```$ ./build.sh
+```
+$ ./build.sh
 ```
 You can find the compiled and packaged tarball archive in bin/Release/netcoreapp3.1/linux-x64.
 
