@@ -7,8 +7,8 @@ namespace Sider.CodeAnalyzers
 	{
 		private const Language CSharp = Language.CSharp;
 
-		private const string MicrosoftCodeQualityAnalyzersDll = @"%global‑packages%/microsoft.codequality.analyzers/2.9.8/analyzers/dotnet/cs/Microsoft.CodeQuality.Analyzers.dll";
-		private const string MicrosoftNetCoreAnalyzersDll = @"%global‑packages%/microsoft.netcore.analyzers/2.9.8/analyzers/dotnet/cs/Microsoft.NetCore.Analyzers.dll";
+		private const string MicrosoftCodeQualityAnalyzersDll = @"%global-packages%/microsoft.codequality.analyzers/2.9.8/analyzers/dotnet/cs/Microsoft.CodeQuality.Analyzers.dll";
+		private const string MicrosoftNetCoreAnalyzersDll = @"%global-packages%/microsoft.netcore.analyzers/2.9.8/analyzers/dotnet/cs/Microsoft.NetCore.Analyzers.dll";
 
 		[TestMethod]
 		[ExpectedException(typeof(System.IO.FileNotFoundException))]

@@ -9,7 +9,7 @@ namespace Sider.CodeAnalyzers
 	public static class Program
 	{
 		private static readonly string[] Analyzers =
-			Newtonsoft.Json.JsonConvert.DeserializeObject<string[]>(ConfigurationManager.AppSettings["analyzers"]);
+			Newtonsoft.Json.JsonConvert.DeserializeObject<string[]>(File.ReadAllText("analyzers.json"));
 
 		private class Options
 		{

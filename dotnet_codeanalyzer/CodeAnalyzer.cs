@@ -69,7 +69,7 @@ namespace Sider.CodeAnalyzers
 			var userProfilePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
 			var filePath = new StringBuilder(filePathTemplate)
-				.Replace("%global‑packages%", Path.Combine(userProfilePath, @".nuget/packages"))
+				.Replace("%global-packages%", Path.Combine(userProfilePath, @".nuget/packages"))
 				.Replace("%userprofile%", userProfilePath)
 				.ToString();
 			return filePath;
