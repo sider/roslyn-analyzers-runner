@@ -7,8 +7,11 @@ namespace Sider.CodeAnalyzers
 {
 	public static class Program
 	{
+		private static readonly string ExecutingFileDirectory =
+			Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
 		private static readonly string[] Analyzers =
-			Newtonsoft.Json.JsonConvert.DeserializeObject<string[]>(File.ReadAllText("analyzers.json"));
+			Newtonsoft.Json.JsonConvert.DeserializeObject<string[]>(
+				File.ReadAllText(Path.Combine(ExecutingFileDirectory, "analyzers.json")));
 
 		private class Options
 		{
