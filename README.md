@@ -15,6 +15,21 @@ Install the dotnet-tarball utility as:
 > dotnet tool install --global dotnet-tarball
 ```
 
+- Microsoft.CodeAnalysis.Analyzers (see [nuget.org](https://www.nuget.org/packages/Microsoft.CodeAnalysis.Analyzers/))
+- Microsoft.CodeAnalysis.FxCopAnalyzers (see [nuget.org](https://www.nuget.org/packages/Microsoft.CodeAnalysis.FxCopAnalyzers/))
+
+Install the nuget packages as:
+```shell script
+PM> Install-Package Microsoft.CodeAnalysis.Analyzers -Version 2.9.8
+PM> Install-Package Microsoft.CodeAnalysis.FxCopAnalyzers -Version 2.9.8
+```
+
+Or, you can use the dotnet command as:
+```shell script
+> dotnet add package Microsoft.CodeAnalysis.Analyzers --version 2.9.8
+> dotnet add package Microsoft.CodeAnalysis.FxCopAnalyzers --version 2.9.8
+```
+
 ## How to build
 
 Follow the steps below:
@@ -33,3 +48,7 @@ Let's package the binary files as a tarball archive:
 > ./build.sh
 ```
 You can find the compiled and packaged tarball archive in bin/Release/netcoreapp3.1/linux-x64.
+
+## Change analyzers and their versions
+
+You can change the analyzers and their versions by changing a list of analyzers defined in [analyzers.json](dotnet_codeanalyzer/analyzers.json).
