@@ -1,7 +1,6 @@
 ﻿using CommandLine;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
 
 namespace Sider.CodeAnalyzers
