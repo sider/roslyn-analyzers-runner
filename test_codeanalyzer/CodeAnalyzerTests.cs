@@ -46,10 +46,6 @@ location: (19,13)-(19,21)
 message: 型名 'TestEnum' が 'Enum' で終わらないように変更します。
 
 id: CA1812
-location: (25,7)-(25,13)
-message: Class1 は、インスタンス化されていない内部クラスです。その場合、コードをアセンブリから削除してください。このクラスが静的メンバーのみを含むことを意図している場合は、このクラスを static (Visual Basic の場合は Shared) にしてください。
-
-id: CA1812
 location: (10,16)-(10,18)
 message: A2 は、インスタンス化されていない内部クラスです。その場合、コードをアセンブリから削除してください。このクラスが静的メンバーのみを含むことを意図している場合は、このクラスを static (Visual Basic の場合は Shared) にしてください。
 
@@ -104,18 +100,10 @@ message: 提案された名前 'None' を伴う、値 0 を含む Test にメン
 			var expected = @"file: example/TestPy.py
 
 id: CA1823
-location: (3,0)-(3,3)
-message: 未使用のフィールド 'def'。
-
-id: CA1823
 location: (1,7)-(1,12)
 message: 未使用のフィールド 'numpy'。
 
 file: example/Class4.cs
-
-id: CA1823
-location: (3,0)-(3,3)
-message: 未使用のフィールド 'def'。
 
 id: CA1823
 location: (1,7)-(1,12)

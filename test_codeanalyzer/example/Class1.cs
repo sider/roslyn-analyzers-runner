@@ -23,7 +23,7 @@ namespace Project1
 		BBB = 2,
 	}
 
-	class Class1
+	public class Class1
 	{
 		public static void Main()
 		{
