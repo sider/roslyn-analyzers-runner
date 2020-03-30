@@ -26,6 +26,8 @@ PM> Install-Package Microsoft.CodeAnalysis.FxCopAnalyzers -Version 2.9.8
 
 Or, you can use the dotnet command as:
 ```shell script
+> mkdir dummy_project; cd $_
+> dotnet new console
 > dotnet add package Microsoft.CodeAnalysis.Analyzers --version 2.9.8
 > dotnet add package Microsoft.CodeAnalysis.FxCopAnalyzers --version 2.9.8
 ```
