@@ -21,6 +21,8 @@
     <Compile Remove="example\Class2.cs" />
     <Compile Remove="example\Class3.cs" />
     <Compile Remove="example\Class4.cs" />
+    <Compile Remove="example\HelloWorldSjis.cs" />
+    <Compile Remove="example\HelloWorldUtf8.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,6 +36,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="example\Class4.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="example\HelloWorldSjis.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="example\HelloWorldUtf8.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

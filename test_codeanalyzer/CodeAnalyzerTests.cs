@@ -195,5 +195,44 @@ message: P/Invoke 文字列引数に対してマーシャリングを指定し�
 
 			Assert.AreEqual(expected, actual);
 		}
+
+		[TestMethod]
+		[DeploymentItem(@"example/HelloWorldUtf8.cs", @"example")]
+		public void TestUtf8File()
+		{
+			var expected = @"file: example/HelloWorldUtf8.cs
+
+id: CA2219
+location: (14,4)-(14,10)
+message: finally 句内から例外を発生させないでください。 
+
+";
+
+			var actual = CodeAnalyzer.Create(CSharp, new[] { MicrosoftCodeQualityAnalyzersDll })
+				.Diagnose(new[] { @"example/HelloWorldUtf8.cs" })
+				.ToSimpleText();
+
+			Assert.AreEqual(expected, actual);
+		}
+
+		[Ignore]
+		[TestMethod]
+		[DeploymentItem(@"example/HelloWorldSjis.cs", @"example")]
+		public void TestSjisFile()
+		{
+			var expected = @"file: example/HelloWorldSjis.cs
+
+id: CA2219
+location: (14,4)-(14,10)
+message: finally 句内から例外を発生させないでください。 
+
+";
+
+			var actual = CodeAnalyzer.Create(CSharp, new[] { MicrosoftCodeQualityAnalyzersDll })
+				.Diagnose(new[] { @"example/HelloWorldSjis.cs" })
+				.ToSimpleText();
+
+			Assert.AreEqual(expected, actual);
+		}
 	}
 }
