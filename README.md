@@ -54,3 +54,7 @@ You can find the compiled and packaged tarball archive in bin/Release/netcoreapp
 ## Change analyzers and their versions
 
 You can change the analyzers and their versions by changing a list of analyzers defined in [analyzers.json](dotnet_codeanalyzer/analyzers.json).
+
+# License
+
+See [LICENSE](LICENSE).
