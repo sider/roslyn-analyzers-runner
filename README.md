@@ -57,7 +57,7 @@ Install the dotnet-tarball utility as:
 ```shell script
 > dotnet tool install --global dotnet-tarball
 ```
-The dotnet-tarball is installed in the ~/.dotnet/tools directory. Please make sure that the directory is included correctly in the PATH environment variable.
+The dotnet-tarball is installed in the ~/.dotnet/tools directory. Please make sure that the directory is included correctly in the PATH environment variable. See [dotnet tool install](https://docs.microsoft.com/dotnet/core/tools/dotnet-tool-install).
 
 - Microsoft.CodeAnalysis.Analyzers (see [nuget.org](https://www.nuget.org/packages/Microsoft.CodeAnalysis.Analyzers/))
 - Microsoft.CodeAnalysis.FxCopAnalyzers (see [nuget.org](https://www.nuget.org/packages/Microsoft.CodeAnalysis.FxCopAnalyzers/))
