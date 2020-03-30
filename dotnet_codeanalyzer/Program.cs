@@ -35,7 +35,7 @@ namespace Sider.CodeAnalyzers
 
 			if (parseResult.Tag == ParserResultType.NotParsed)
 			{
-				exitCode = -1;
+				exitCode = 1;
 				goto Exit;
 			}
 
@@ -54,7 +54,7 @@ namespace Sider.CodeAnalyzers
 			catch (Exception e)
 			{
 				Console.Error.WriteLine(e);
-				exitCode = 1;
+				exitCode = 2;
 			}
 
 		Exit:
