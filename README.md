@@ -2,7 +2,7 @@
 
 `dotnet_codeanalyzer` is a command-line tool that wraps the `.NET Compiler Platform` in order to analyze C# files independently and write the results to a JSON file which makes it easy to be reused by another tools.
 
-## Installation
+## How to use
 
 First, install the following packages:
 
@@ -46,8 +46,9 @@ Or, you can generate results as a JSON file.
 > codeanalyzer --outputfile result.json --targets Example1.cs Example2.cs
 ```
 
+## Developer guide
 
-## Prerequisites
+### Prerequisites
 
 - .NET Core SDK (see [Download and install .NET Core](https://docs.microsoft.com/dotnet/core/install/sdk))
 - dotnet tarball (see [Packaging utilities for .NET Core](https://github.com/qmfrederik/dotnet-packaging))
@@ -56,6 +57,7 @@ Install the dotnet-tarball utility as:
 ```shell script
 > dotnet tool install --global dotnet-tarball
 ```
+The dotnet-tarball is installed in the ~/.dotnet/tools directory. Please make sure that the directory is included correctly in the PATH environment variable.
 
 - Microsoft.CodeAnalysis.Analyzers (see [nuget.org](https://www.nuget.org/packages/Microsoft.CodeAnalysis.Analyzers/))
 - Microsoft.CodeAnalysis.FxCopAnalyzers (see [nuget.org](https://www.nuget.org/packages/Microsoft.CodeAnalysis.FxCopAnalyzers/))
@@ -74,7 +76,7 @@ Or, you can use the dotnet command as:
 > dotnet add package Microsoft.CodeAnalysis.FxCopAnalyzers --version 2.9.8
 ```
 
-## How to build
+### How to build
 
 Follow the steps below:
 ```shell script
@@ -87,15 +89,15 @@ Follow the steps below:
 > dotnet run
 ```
 
-Let's package the binary files as a tarball archive:
+Let's package the binary files as a tarball archive.
 ```shell script
 > ./build.sh
 ```
 You can find the compiled and packaged tarball archive in bin/Release/netcoreapp3.1/linux-x64.
 
-## Change analyzers and their versions
+### Change analyzers and their versions
 
-You can change the analyzers and their versions by changing a list of analyzers defined in [analyzers.json](dotnet_codeanalyzer/analyzers.json).
+You can change the analyzers and their versions at runtime by changing a list of analyzers defined in [analyzers.json](dotnet_codeanalyzer/analyzers.json).
 
 # License
 
