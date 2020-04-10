@@ -1,6 +1,6 @@
 # Code analyzer for .NET Core
 
-`dotnet_codeanalyzer` is a command-line tool that wraps the `.NET Compiler Platform` in order to analyze C# files independently and write the results to a JSON file which makes it easy to be reused by another tools.
+`dotnet_codeanalyzer` is a command-line tool that wraps the `.NET Compiler Platform (Roslyn)` in order to analyze C# files independently and write the results to a JSON file which makes it easy to be reused by another tools.
 
 ## How to use
 
@@ -10,21 +10,19 @@ First, install the following packages:
 
 - dotnet_codeanalyzer
 ```shell script
-> export PATH=/usr/local/bin/dotnet_codeanalyzer:$PATH
-> sudo mkdir -p /usr/local/bin/dotnet_codeanalyzer
-> curl -SL https://github.com/sider/dotnet_codeanalyzer/releases/download/v0.1.1/codeanalyzer.0.1.1.linux-x64.tar.gz | sudo tar -zxC /usr/local/bin/dotnet_codeanalyzer
+> mkdir ./dotnet_codeanalyzer
+> curl -SL https://github.com/sider/dotnet_codeanalyzer/releases/download/v0.1.1/codeanalyzer.0.1.1.linux-x64.tar.gz | tar -zxvC ./dotnet_codeanalyzer
 ```
-Then, download the analyzers and configure the dependencies.
+Then, download the analyzers and configure the dependencies. Run commands below after setting up [nuget](https://docs.microsoft.com/nuget/install-nuget-client-tools).
 
 ```shell script
-> sudo apt-get install nuget
 > nuget install Microsoft.CodeAnalysis.Analyzers
 > nuget install Microsoft.CodeAnalysis.FxCopAnalyzers
 ```
 You will get FxCopAnalyzers and its dependencies in the current directory. You also need to specify the path to the analyzer DLLs by editing analyzers.json.
 
 ```shell script
-> sudo vi /usr/local/bin/dotnet_codeanalyzer/analyzers.json
+> sudo vi ./dotnet_codeanalyzer/analyzers.json
 [
   "PATH_TO_/Microsoft.CodeAnalysis.Analyzers.2.9.8/analyzers/dotnet/cs/Microsoft.CodeAnalysis.Analyzers.dll",
   "PATH_TO_/Microsoft.CodeAnalysis.Analyzers.2.9.8/analyzers/dotnet/cs/Microsoft.CodeAnalysis.CSharp.Analyzers.dll",
@@ -39,9 +37,10 @@ You will get FxCopAnalyzers and its dependencies in the current directory. You a
 
 Now you can run with your source code to analyze.
 ```shell script
+> cd ./dotnet_codeanalyzer
 > codeanalyzer --targets Example1.cs Example2.cs
 ```
-Or, you can generate results as a JSON file.
+Or, you can write results to a JSON file.
 ```shell script
 > codeanalyzer --outputfile result.json --targets Example1.cs Example2.cs
 ```
