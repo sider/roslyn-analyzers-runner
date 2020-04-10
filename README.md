@@ -22,7 +22,7 @@ Then, download the analyzers and configure the dependencies. Run commands below 
 You will get FxCopAnalyzers and its dependencies in the current directory. You also need to specify the path to the analyzer DLLs by editing analyzers.json.
 
 ```shell script
-> sudo vi ./dotnet_codeanalyzer/analyzers.json
+> vi ./dotnet_codeanalyzer/analyzers.json
 [
   "PATH_TO_/Microsoft.CodeAnalysis.Analyzers.2.9.8/analyzers/dotnet/cs/Microsoft.CodeAnalysis.Analyzers.dll",
   "PATH_TO_/Microsoft.CodeAnalysis.Analyzers.2.9.8/analyzers/dotnet/cs/Microsoft.CodeAnalysis.CSharp.Analyzers.dll",
@@ -38,11 +38,11 @@ You will get FxCopAnalyzers and its dependencies in the current directory. You a
 Now you can run with your source code to analyze.
 ```shell script
 > cd ./dotnet_codeanalyzer
-> codeanalyzer --targets Example1.cs Example2.cs
+> codeanalyzer Example1.cs Example2.cs
 ```
 Or, you can write results to a JSON file.
 ```shell script
-> codeanalyzer --outputfile result.json --targets Example1.cs Example2.cs
+> codeanalyzer --outputfile result.json Example1.cs Example2.cs
 ```
 
 ## Developer guide

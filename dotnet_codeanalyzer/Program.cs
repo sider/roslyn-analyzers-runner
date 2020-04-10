@@ -23,7 +23,7 @@ namespace Sider.CodeAnalyzers
 			[Option(Default = Stdout)]
 			public string OutputFile { get; set; }
 
-			[Option()]
+			[Value(0, MetaName="file ...")]
 			public IEnumerable<string> Targets { get; set; }
 		}
 
