@@ -54,7 +54,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\dotnet_codeanalyzer\dotnet_codeanalyzer.csproj" />
+    <ProjectReference Include="..\dotnet_codeanalyzer\RoslynAnalyzersRunner.csproj" />
   </ItemGroup>
 
   <ItemGroup>
