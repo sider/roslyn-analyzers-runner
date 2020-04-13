@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Sider.CodeAnalyzers
+namespace Sider.RoslynAnalyzersRunner
 {
 	public enum Language
 	{

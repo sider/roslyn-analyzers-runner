@@ -4,7 +4,7 @@ using System.Collections.Immutable;
 using System.Globalization;
 using System.Linq;
 
-namespace Sider.CodeAnalyzers
+namespace Sider.RoslynAnalyzersRunner
 {
 	public class AnalysisResult
 	{

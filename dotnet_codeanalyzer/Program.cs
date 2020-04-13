@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Sider.CodeAnalyzers
+namespace Sider.RoslynAnalyzersRunner
 {
 	public static class Program
 	{

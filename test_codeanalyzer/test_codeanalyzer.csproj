@@ -5,9 +5,9 @@
 
     <IsPackable>false</IsPackable>
 
-    <RootNamespace>Sider.CodeAnalyzers</RootNamespace>
+    <RootNamespace>Sider.RoslynAnalyzersRunner</RootNamespace>
 
-    <AssemblyName>codeanalyzertests</AssemblyName>
+    <AssemblyName>Sider.RoslynAnalyzersRunner.Tests</AssemblyName>
 
     <ApplicationIcon />
 

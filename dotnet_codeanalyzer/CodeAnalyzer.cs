@@ -9,7 +9,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace Sider.CodeAnalyzers
+namespace Sider.RoslynAnalyzersRunner
 {
 	public class CodeAnalyzer
 	{
