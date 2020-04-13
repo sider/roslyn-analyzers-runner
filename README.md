@@ -1,6 +1,6 @@
-# Code analyzer for .NET Core
+# Roslyn Analyzers Runner
 
-`dotnet_codeanalyzer` is a command-line tool that wraps the `.NET Compiler Platform (Roslyn)` in order to analyze C# files independently and write the results to a JSON file which makes it easy to be reused by another tools.
+`Roslyn Analyzers Runner` is a command-line tool that wraps the `.NET Compiler Platform (Roslyn)` in order to analyze C# files independently and write the results to a JSON file which makes it easy to be reused by another tools.
 
 ## How to use
 
@@ -8,10 +8,10 @@ First, install the following packages:
 
 - .NET Core Runtime (see [Install the .NET Core Runtime](https://docs.microsoft.com/dotnet/core/install/runtime))
 
-- dotnet_codeanalyzer
+- Roslyn Analyzers Runner
 ```shell script
-> mkdir ./dotnet_codeanalyzer
-> curl -SL https://github.com/sider/dotnet_codeanalyzer/releases/download/v0.1.1/codeanalyzer.0.1.1.linux-x64.tar.gz | tar -zxvC ./dotnet_codeanalyzer
+> mkdir ./RoslynAnalyzersRunner
+> curl -SL https://github.com/sider/roslyn-analyzers-runner/releases/download/v0.1.1/Sider.RoslynAnalyzersRunner.0.1.1.linux-x64.tar.gz | tar -zxvC ./RoslynAnalyzersRunner
 ```
 Then, download the analyzers and configure the dependencies. Run commands below after setting up [nuget](https://docs.microsoft.com/nuget/install-nuget-client-tools).
 
@@ -22,7 +22,7 @@ Then, download the analyzers and configure the dependencies. Run commands below 
 You will get FxCopAnalyzers and its dependencies in the current directory. You also need to specify the path to the analyzer DLLs by editing analyzers.json.
 
 ```shell script
-> vi ./dotnet_codeanalyzer/analyzers.json
+> vi ./RoslynAnalyzersRunner/analyzers.json
 [
   "PATH_TO_/Microsoft.CodeAnalysis.Analyzers.2.9.8/analyzers/dotnet/cs/Microsoft.CodeAnalysis.Analyzers.dll",
   "PATH_TO_/Microsoft.CodeAnalysis.Analyzers.2.9.8/analyzers/dotnet/cs/Microsoft.CodeAnalysis.CSharp.Analyzers.dll",
@@ -37,12 +37,12 @@ You will get FxCopAnalyzers and its dependencies in the current directory. You a
 
 Now you can run with your source code to analyze.
 ```shell script
-> cd ./dotnet_codeanalyzer
-> codeanalyzer Example1.cs Example2.cs
+> cd ./RoslynAnalyzersRunner
+> Sider.RoslynAnalyzersRunner Example1.cs Example2.cs
 ```
 Or, you can write results to a JSON file.
 ```shell script
-> codeanalyzer --outputfile result.json Example1.cs Example2.cs
+> Sider.RoslynAnalyzersRunner --outputfile result.json Example1.cs Example2.cs
 ```
 
 ## Developer guide
@@ -79,12 +79,11 @@ Or, you can use the dotnet command as:
 
 Follow the steps below:
 ```shell script
-> git clone https://github.com/sider/dotnet_codeanalyzer.git
-> cd dotnet_codeanalyzer
+> git clone https://github.com/sider/roslyn-analyzers-runner.git
+> cd roslyn-analyzers-runner/
 > dotnet build
-> cd test_codeanalyzer
 > dotnet test
-> cd dotnet_codeanalyzer
+> cd RoslynAnalyzersRunner/
 > dotnet run
 ```
 
@@ -96,7 +95,7 @@ You can find the compiled and packaged tarball archive in bin/Release/netcoreapp
 
 ### Change analyzers and their versions
 
-You can change the analyzers and their versions at runtime by changing a list of analyzers defined in [analyzers.json](dotnet_codeanalyzer/analyzers.json).
+You can change the analyzers and their versions at runtime by changing a list of analyzers defined in [analyzers.json](RoslynAnalyzersRunner/analyzers.json).
 
 # License
 
