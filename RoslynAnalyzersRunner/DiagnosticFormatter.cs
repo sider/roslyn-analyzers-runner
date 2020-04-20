@@ -20,6 +20,7 @@ namespace Sider.RoslynAnalyzersRunner
 				{
 					results.AppendLine($"id: {diagnostic.Id}");
 					results.AppendLine($"location: {diagnostic.Location}");
+					results.AppendLine($"severity: {diagnostic.Severity}");
 					results.AppendLine($"message: {diagnostic.Message}");
 					results.AppendLine();
 				}

@@ -35,26 +35,32 @@ namespace Sider.RoslynAnalyzersRunner
 
 id: CA2219
 location: (89,4)-(89,26)
+severity: Warning
 message: Do not raise an exception from within a finally clause. 
 
 id: CA1031
 location: (83,3)-(83,8)
+severity: Warning
 message: Modify '.ctor' to catch a more specific allowed exception type, or rethrow the exception.
 
 id: CA1714
 location: (13,13)-(13,17)
+severity: Warning
 message: Flags enums should have plural names
 
 id: CA1008
 location: (19,13)-(19,21)
+severity: Warning
 message: Add a member to TestEnum that has a value of zero with a suggested name of 'None'.
 
 id: CA1711
 location: (19,13)-(19,21)
+severity: Warning
 message: Rename type name TestEnum so that it does not end in 'Enum'.
 
 id: CA1812
 location: (10,16)-(10,18)
+severity: Warning
 message: A2 is an internal class that is apparently never instantiated. If so, remove the code from the assembly. If this class is intended to contain only static members, make it static (Shared in Visual Basic).
 
 ";
@@ -75,20 +81,24 @@ message: A2 is an internal class that is apparently never instantiated. If so, r
 
 id: CA2219
 location: (20,4)-(20,26)
+severity: Warning
 message: Do not raise an exception from within a finally clause. 
 
 id: CA1714
 location: (25,14)-(25,22)
+severity: Warning
 message: Flags enums should have plural names
 
 id: CA1060
 location: (7,14)-(7,20)
+severity: Warning
 message: Move pinvokes to native methods class
 
 file: example/Class3.cs
 
 id: CA1008
 location: (18,14)-(18,18)
+severity: Warning
 message: Add a member to Test that has a value of zero with a suggested name of 'None'.
 
 ";
@@ -109,12 +119,14 @@ message: Add a member to Test that has a value of zero with a suggested name of 
 
 id: CA1823
 location: (1,7)-(1,12)
+severity: Warning
 message: Unused field 'numpy'.
 
 file: example/Class4.cs
 
 id: CA1823
 location: (1,7)-(1,12)
+severity: Warning
 message: Unused field 'numpy'.
 
 ";
@@ -134,14 +146,17 @@ message: Unused field 'numpy'.
 
 id: CA5392
 location: (10,28)-(10,41)
+severity: Warning
 message: The method SetWindowText didn't use DefaultDllImportSearchPaths attribute for P/Invokes.
 
 id: CA1401
 location: (10,28)-(10,41)
+severity: Warning
 message: P/Invoke method 'SetWindowText' should not be visible
 
 id: CA2101
 location: (9,3)-(9,56)
+severity: Warning
 message: Specify marshaling for P/Invoke string arguments
 
 ";
@@ -161,26 +176,32 @@ message: Specify marshaling for P/Invoke string arguments
 
 id: CA2219
 location: (20,4)-(20,26)
+severity: Warning
 message: Do not raise an exception from within a finally clause. 
 
 id: CA1714
 location: (25,14)-(25,22)
+severity: Warning
 message: Flags enums should have plural names
 
 id: CA1060
 location: (7,14)-(7,20)
+severity: Warning
 message: Move pinvokes to native methods class
 
 id: CA5392
 location: (10,28)-(10,41)
+severity: Warning
 message: The method SetWindowText didn't use DefaultDllImportSearchPaths attribute for P/Invokes.
 
 id: CA1401
 location: (10,28)-(10,41)
+severity: Warning
 message: P/Invoke method 'SetWindowText' should not be visible
 
 id: CA2101
 location: (9,3)-(9,56)
+severity: Warning
 message: Specify marshaling for P/Invoke string arguments
 
 ";
@@ -200,6 +221,7 @@ message: Specify marshaling for P/Invoke string arguments
 
 id: CA2219
 location: (14,4)-(14,10)
+severity: Warning
 message: Do not raise an exception from within a finally clause. 
 
 ";
@@ -220,6 +242,7 @@ message: Do not raise an exception from within a finally clause.
 
 id: CA2219
 location: (14,4)-(14,10)
+severity: Warning
 message: Do not raise an exception from within a finally clause. 
 
 ";

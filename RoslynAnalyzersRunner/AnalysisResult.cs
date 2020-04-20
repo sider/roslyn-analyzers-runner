@@ -27,7 +27,7 @@ namespace Sider.RoslynAnalyzersRunner
 		public LinePositionSpan Location { get; private set; }
 		public string Message { get; private set; }
 		public int WarningLevel { get; private set; }
-		public DiagnosticSeverity Severity { get; private set; }
+		public string Severity { get; private set; }
 		public string Title { get; private set; }
 		public string Description { get; private set; }
 		public string HelpLinkUri { get; private set; }
@@ -43,7 +43,7 @@ namespace Sider.RoslynAnalyzersRunner
 				Location = diagnostic.Location.GetLineSpan().Span,
 				Message = diagnostic.GetMessage(),
 				WarningLevel = diagnostic.WarningLevel,
-				Severity = diagnostic.Severity,
+				Severity = diagnostic.Severity.ToString(),
 				Title = descriptor.Title.ToString(CultureInfo.CurrentCulture),
 				Description = descriptor.Description.ToString(CultureInfo.CurrentCulture),
 				HelpLinkUri = descriptor.HelpLinkUri,
