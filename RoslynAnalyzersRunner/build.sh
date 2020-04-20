@@ -1,4 +1,8 @@
 #! /bin/sh
 
-dotnet tarball -c Release -r linux-x64
+CONF=Release
+
+dotnet clean -c ${CONF}
+dotnet build -c ${CONF}
+dotnet tarball -c ${CONF}
 
