@@ -91,7 +91,7 @@ namespace Sider.RoslynAnalyzersRunner
 			var compilationOptions = language.ToCompilationOptions()
 				.WithSpecificDiagnosticOptions(
 					analyzers.SelectMany(a => a.SupportedDiagnostics)
-					.Select(d => new KeyValuePair<string, ReportDiagnostic>(d.Id, ReportDiagnostic.Warn))); // すべての診断を警告(有効)にしている。既定では無効のものも存在しているので。
+					.Select(d => new KeyValuePair<string, ReportDiagnostic>(d.Id, ReportDiagnostic.Default)));
 			return compilationOptions;
 		}
 
