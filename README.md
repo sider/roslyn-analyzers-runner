@@ -24,14 +24,14 @@ You will get FxCopAnalyzers and its dependencies in the current directory. You a
 ```shell script
 > vi ./RoslynAnalyzersRunner/analyzers.json
 [
-  "PATH_TO_/Microsoft.CodeAnalysis.Analyzers.2.9.8/analyzers/dotnet/cs/Microsoft.CodeAnalysis.Analyzers.dll",
-  "PATH_TO_/Microsoft.CodeAnalysis.Analyzers.2.9.8/analyzers/dotnet/cs/Microsoft.CodeAnalysis.CSharp.Analyzers.dll",
-  "PATH_TO_/Microsoft.CodeQuality.Analyzers.2.9.8/analyzers/dotnet/cs/Microsoft.CodeQuality.Analyzers.dll",
-  "PATH_TO_/Microsoft.CodeQuality.Analyzers.2.9.8/analyzers/dotnet/cs/Microsoft.CodeQuality.CSharp.Analyzers.dll",
-  "PATH_TO_/Microsoft.NetCore.Analyzers.2.9.8/analyzers/dotnet/cs/Microsoft.NetCore.Analyzers.dll",
-  "PATH_TO_/Microsoft.NetCore.Analyzers.2.9.8/analyzers/dotnet/cs/Microsoft.NetCore.CSharp.Analyzers.dll",
-  "PATH_TO_/Microsoft.NetFramework.Analyzers.2.9.8/analyzers/dotnet/cs/Microsoft.NetFramework.Analyzers.dll",
-  "PATH_TO_/Microsoft.NetFramework.Analyzers.2.9.8/analyzers/dotnet/cs/Microsoft.NetFramework.CSharp.Analyzers.dll"
+  "PATH_TO_/Microsoft.CodeAnalysis.Analyzers.3.0.0/analyzers/dotnet/cs/Microsoft.CodeAnalysis.Analyzers.dll",
+  "PATH_TO_/Microsoft.CodeAnalysis.Analyzers.3.0.0/analyzers/dotnet/cs/Microsoft.CodeAnalysis.CSharp.Analyzers.dll",
+  "PATH_TO_/Microsoft.CodeQuality.Analyzers.3.0.0/analyzers/dotnet/cs/Microsoft.CodeQuality.Analyzers.dll",
+  "PATH_TO_/Microsoft.CodeQuality.Analyzers.3.0.0/analyzers/dotnet/cs/Microsoft.CodeQuality.CSharp.Analyzers.dll",
+  "PATH_TO_/Microsoft.NetCore.Analyzers.3.0.0/analyzers/dotnet/cs/Microsoft.NetCore.Analyzers.dll",
+  "PATH_TO_/Microsoft.NetCore.Analyzers.3.0.0/analyzers/dotnet/cs/Microsoft.NetCore.CSharp.Analyzers.dll",
+  "PATH_TO_/Microsoft.NetFramework.Analyzers.3.0.0/analyzers/dotnet/cs/Microsoft.NetFramework.Analyzers.dll",
+  "PATH_TO_/Microsoft.NetFramework.Analyzers.3.0.0/analyzers/dotnet/cs/Microsoft.NetFramework.CSharp.Analyzers.dll"
 ]
 ```
 
@@ -63,16 +63,16 @@ The dotnet-tarball is installed in the ~/.dotnet/tools directory. Please make su
 
 Install the nuget packages as:
 ```shell script
-PM> Install-Package Microsoft.CodeAnalysis.Analyzers -Version 2.9.8
-PM> Install-Package Microsoft.CodeAnalysis.FxCopAnalyzers -Version 2.9.8
+PM> Install-Package Microsoft.CodeAnalysis.Analyzers -Version 3.0.0
+PM> Install-Package Microsoft.CodeAnalysis.FxCopAnalyzers -Version 3.0.0
 ```
 
 Or, you can use the dotnet command as:
 ```shell script
 > mkdir dummy_project; cd $_
 > dotnet new console
-> dotnet add package Microsoft.CodeAnalysis.Analyzers --version 2.9.8
-> dotnet add package Microsoft.CodeAnalysis.FxCopAnalyzers --version 2.9.8
+> dotnet add package Microsoft.CodeAnalysis.Analyzers --version 3.0.0
+> dotnet add package Microsoft.CodeAnalysis.FxCopAnalyzers --version 3.0.0
 ```
 
 ### How to build
